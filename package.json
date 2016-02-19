@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Send BitBucket Pull Request notifications to Slack.",
   "scripts": {
-    "start": "node server"
+    "start": "node server",
+    "test": "make test"
   },
   "author": "Luiz Gonzaga dos Santos Filho",
   "license": "MIT",
@@ -16,6 +17,6 @@
     "node-slack": "git+https://github.com/xoxco/node-slack.git"
   },
   "devDependencies": {
-    "buster": "^0.7.14"
+    "ava": "^0.12.0"
   }
 }

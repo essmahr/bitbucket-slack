@@ -1,8 +1,6 @@
 bitbucket-slack-pr-hook
 =======================
 
-[![Build Status](https://travis-ci.org/lfilho/bitbucket-slack-pr-hook.svg?branch=master)](https://travis-ci.org/lfilho/bitbucket-slack-pr-hook)
-
 Receive Pull Requests notifications from Bitbucket and send them to Slack.
 
 ## Features
@@ -78,46 +76,6 @@ HEX_SUCCESS = #2ecc71
 
 ```
 
-## Installation
-
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)    
-    
-**OR**    
-    
-You can install it in your own local infrastructure or in any other cloud service.
-Alternatively, you can build a Docker image and [deploy as container](#installation-using-docker)
-
-  1. Set up a server address in your local infrastructure that will serve this application (eg: `slackapi.mycompany.com` or `slackapi.heroku.com`)
-  2. Clone/download this repo to your chosen server
-  3. Configure your application according to the "Configuration" section above
-  4. Install NodeJS if you don't have it
-  5. Run `npm install` in the app's root folder
-
-  **Important note**: make sure you don't have any firewall blocking the incoming TCP port (default is PORT 5000 as defined in the "Configuration" section above)
-
-## Installation using Docker
-
-Service can also be installed & deployed using [Docker](https://www.docker.com/) containers,
-which makes it easy to setup the environment without worrying about the requirements.
-
-  1. Clone/download this repo
-  2. Install Docker (using system packages in Linux, in Windows or Mac OS X you can use [Boot2docker](http://boot2docker.io/))
-  3. Start Docker service (or `boot2docker up`)
-  4. Build the Docker image:
-
-        # Alternatively: npm run build-container
-        docker build -t bitbucket-slack-pr-hook .
-
-  5. Start container with appropriate `-e` config parameters:
-
-        docker run -e PORT=5000 -e SLACK_WEBHOOK=webhookurl \
-          -p 5000:5000 -d bitbucket-slack-pr-hook
-
-  6. Ensure the container is running (you should also be able to access the service using web browser: `http://<dockerhost>:5000/`).
-
-     **Note:** In Linux the `<dockerhost>` is `localhost`, with Boot2docker use the IP reported by the command: `boot2docker ip`
-
-
 ## Setting up the Bitbucket
 
   1. In your main Bitbucket repository, go to Settings > Hooks and create a new `Pull Request POST` hook
@@ -131,12 +89,6 @@ which makes it easy to setup the environment without worrying about the requirem
 ### Via plain node
 
   1. Run `npm start` (or `node server.js`) to fire up the application (you can do `node server.js &` to run it as a daemon in your Linux box)
-
-### Via Docker
-
-  1. Run `npm run build-container` to build the container
-  2. Run `npm run start-container` to start the container and the server inside it
-  3. When needed, you can use `npm run stop-container` and `npm run reload-container`
 
 ## Credits
 

@@ -17,17 +17,17 @@ app.get('/', function (req, res) {
 });
 
 app.post('*', function (req, res) {
-    var channel = req.path.substring(1);
-    var eventKey = req.headers['x-event-key'];
-    var message = bitbucketParser.generateMessage(req.body, eventKey);
+  var channel = req.path.substring(1);
+  var eventKey = req.headers['x-event-key'];
+  var message = bitbucketParser.generateMessage(req.body, eventKey);
 
-    if (message !== undefined) {
-        slackService.sendMessage(message, channel);
-    }
+  if (message !== undefined) {
+      slackService.sendMessage(message, channel);
+  }
 
-    res.status(200).end();
+  res.status(200).end();
 });
 
 app.listen(config.port, function () {
-    console.log('BitBucket PR Hook bridge listening on:', config.port);
+  console.log('BitBucket PR Hook bridge listening on:', config.port);
 });

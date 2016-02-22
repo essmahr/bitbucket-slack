@@ -1,37 +1,37 @@
 'use strict';
 
-var Slack = require('node-slack');
-var config = require('./config');
+import Slack from 'node-slack';
+import config from './config';
 
 function noop() {}
 
-module.exports = (function () {
-  var slack = new Slack(config.webhook);
-  var params = {
-    attachments: []
-  };
+export default class SlackService {
+  constructor () {
+    this.slack = new Slack(config.webhook);
 
-  if (typeof config.username !== 'undefined') {
-    params.username = config.username;
-  }
+    this.params = {
+      attachments: [],
+    };
 
-  if (config.channel !== '#undefined' && typeof channel !== 'undefined') {
-    params.channel = config.channel;
-  }
-
-  var sendMessage = function (message, channel) {
-    // `text` is mandatory:
-    params.text = message.fallback;
-    params.attachments[0] = message;
-
-    if (channel !== '') {
-      params.channel = '#' + channel;
+    if (typeof config.username !== 'undefined') {
+      this.params.username = config.username;
     }
 
-    slack.send(params, noop);
-  };
+    if (config.channel !== '#undefined' && typeof channel !== 'undefined') {
+      this.params.channel = config.channel;
+    }
+  }
 
-  return {
-    sendMessage: sendMessage
-  };
-})();
+  sendMessage(message, channel) {
+    // `text` is mandatory:
+    this.params.text = message.fallback;
+    this.params.attachments[0] = message;
+
+    if (channel !== '') {
+      this.params.channel = '#' + channel;
+    }
+
+    this.slack.send(this.params, noop);
+  }
+}
+

@@ -3,7 +3,6 @@
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import del from 'del';
-import runSequence from 'run-sequence';
 import cp from 'child_process';
 import browserSync from 'browser-sync';
 import compression from 'compression'; // for gzip compression for browserSync server
@@ -26,7 +25,7 @@ const reload = browserSync.reload;
 gulp.task('scripts:server:dev', function () {
   return gulp.src(`${srcDir}/**/*.js`)
     .pipe($.sourcemaps.init())
-    .pipe($.babel({presets: ['es2015']}))
+    .pipe($.babel())
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(`${devDir}`));
 });

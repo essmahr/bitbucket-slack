@@ -27,7 +27,7 @@ app.post('*', (req, res) => {
   const message = bitbucketParser.generateMessage(req.body, eventKey);
 
   if (message !== undefined) {
-    slackService.sendMessage(message, channel);
+    new slackService().sendMessage(message, channel);
   }
 
   res.status(200).end();

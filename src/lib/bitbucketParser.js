@@ -1,7 +1,8 @@
 'use strict';
 
-require('array.prototype.find');
-var util = require('./util');
+import 'array.prototype.find';
+
+import util from './util';
 
 /**
  * Extracts the payload recieved from Bitbucket outgoing hooks.
@@ -37,7 +38,7 @@ var extractPrData = function (pr) {
   return data;
 };
 
-module.exports = (function () {
+export default (function () {
   var baseHandler = function (pr) {
     var data = extractPrData(pr);
 

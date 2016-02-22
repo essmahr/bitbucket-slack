@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 
 import slackService from './lib/slackService';
-import bitbucketParser from './lib/bitbucketParser';
+import eventManager from './handleEvent';
 
 const app = express();
 
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 app.post('*', (req, res) => {
   const channel = req.path.substring(1);
   const eventKey = req.headers['x-event-key'];
-  const message = bitbucketParser.generateMessage(req.body, eventKey);
+  const message = handleEvent(req.body, eventKey);
 
   if (message !== undefined) {
     new slackService().sendMessage(message, channel);

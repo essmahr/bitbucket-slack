@@ -1,18 +1,14 @@
 'use strict';
 
 var test = require('ava');
+var util = require('../.tmp/lib/util');
+var testUtils = require('./testUtils');
 
-var fs = require('fs');
-var parser = require('../lib/bitbucketParser');
-var util = require('../lib/util');
-
-const readFile = (file, callback) => {
-  return fs.readFileSync(file, { encoding: 'utf8' });
-};
+var generateMessage = require('../.tmp/events/pullrequest').default;
 
 test('should return PR created message if passed created action', t => {
-  const data = JSON.parse(readFile('./json/general.json'));
-  var out = parser.generateMessage(data, 'pullrequest:created');
+  const data = testUtils.getFileJson('./json/general.json');
+  var out = generateMessage(data, 'created');
 
   t.ok(out);
   t.regex(out.fallback, /\*created\*/);
@@ -22,8 +18,8 @@ test('should return PR created message if passed created action', t => {
 });
 
 test('should return PR updated message if passed updated action', t => {
-  const data = JSON.parse(readFile('./json/general.json'));
-  const out = parser.generateMessage(data, 'pullrequest:updated');
+  const data = testUtils.getFileJson('./json/general.json');
+  const out = generateMessage(data, 'updated');
 
   t.ok(out);
   t.regex(out.fallback, /\*updated\*/);
@@ -32,8 +28,8 @@ test('should return PR updated message if passed updated action', t => {
 });
 
 test('should return PR approved message if passed approved action', t => {
-  const data = JSON.parse(readFile('./json/approval.json'));
-  const out = parser.generateMessage(data, 'pullrequest:approved');
+  const data = testUtils.getFileJson('./json/approval.json');
+  const out = generateMessage(data, 'approved');
 
   t.ok(out);
   t.regex(out.fallback, /\*approved\*/);
@@ -43,8 +39,8 @@ test('should return PR approved message if passed approved action', t => {
 });
 
 test('should return PR unapproved message if passed unapproved action', t => {
-  const data = JSON.parse(readFile('./json/approval.json'));
-  const out = parser.generateMessage(data, 'pullrequest:unapproved');
+  const data = testUtils.getFileJson('./json/approval.json');
+  const out = generateMessage(data, 'unapproved');
 
   t.ok(out);
   t.regex(out.fallback, /\*unapproved\*/);
@@ -54,8 +50,8 @@ test('should return PR unapproved message if passed unapproved action', t => {
 });
 
 test('should return PR rejected message if passed rejected action', t => {
-  const data = JSON.parse(readFile('./json/general.json'));
-  const out = parser.generateMessage(data, 'pullrequest:rejected');
+  const data = testUtils.getFileJson('./json/general.json');
+  const out = generateMessage(data, 'rejected');
 
   t.ok(out);
   t.regex(out.fallback, /\*rejected\*/);
@@ -64,8 +60,8 @@ test('should return PR rejected message if passed rejected action', t => {
 });
 
 test('should return PR merged message if passed merged action', t => {
-  const data = JSON.parse(readFile('./json/general.json'));
-  const out = parser.generateMessage(data, 'pullrequest:fulfilled');
+  const data = testUtils.getFileJson('./json/general.json');
+  const out = generateMessage(data, 'fulfilled');
 
   t.ok(out);
   t.regex(out.fallback, /\*merged\*/);
@@ -74,8 +70,8 @@ test('should return PR merged message if passed merged action', t => {
 });
 
 test('should return PR comment created message if passed comment_created action', t => {
-  const data = JSON.parse(readFile('./json/comment.json'));
-  const out = parser.generateMessage(data, 'pullrequest:comment_created');
+  const data = testUtils.getFileJson('./json/comment.json');
+  const out = generateMessage(data, 'comment_created');
 
   t.ok(out);
   t.regex(out.fallback, /comment/);
@@ -87,8 +83,8 @@ test('should return PR comment created message if passed comment_created action'
 });
 
 test('should return PR comment deleted message if passed comment_deleted action', t => {
-  const data = JSON.parse(readFile('./json/comment.json'));
-  const out = parser.generateMessage(data, 'pullrequest:comment_deleted');
+  const data = testUtils.getFileJson('./json/comment.json');
+  const out = generateMessage(data, 'comment_deleted');
 
   t.ok(out);
   t.regex(out.fallback, /comment/);
@@ -100,8 +96,8 @@ test('should return PR comment deleted message if passed comment_deleted action'
 });
 
 test('should return PR comment deleted message if passed comment_updated action', t => {
-  const data = JSON.parse(readFile('./json/comment.json'));
-  const out = parser.generateMessage(data, 'pullrequest:comment_updated');
+  const data = testUtils.getFileJson('./json/comment.json');
+  const out = generateMessage(data, 'comment_updated');
 
   t.ok(out);
   t.regex(out.fallback, /comment/);
@@ -113,11 +109,11 @@ test('should return PR comment deleted message if passed comment_updated action'
 });
 
 test('should return undefined if passed unknown pull request action', t => {
-  var out = parser.generateMessage({'unknown': 'dunno'});
+  var out = generateMessage({'unknown': 'dunno'});
   t.notOk(out);
 });
 
 test('should return undefined if a non pullrequest event is submitted', t => {
-  var out = parser.generateMessage({'unknown': 'dunno'}, 'repo:fork');
+  var out = generateMessage({'unknown': 'dunno'}, 'fork');
   t.notOk(out);
 });

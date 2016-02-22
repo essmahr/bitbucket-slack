@@ -1,9 +1,9 @@
 'use strict';
-var config = require('./config');
+import config from './config';
 
 module.exports = {
-  truncate: function (string) {
-    var MAX_LENGTH = 100;
+  truncate: (string) => {
+    const MAX_LENGTH = 100;
 
     if (string.length > MAX_LENGTH) {
       return string.substring(0, MAX_LENGTH) + ' [...]';
@@ -12,8 +12,8 @@ module.exports = {
     return string;
   },
 
-  getPossiblyUndefinedKeyValue: function (obj, keySequence) {
-    var keys = keySequence.split('.');
+  getPossiblyUndefinedKeyValue: (obj, keySequence) => {
+    const keys = keySequence.split('.');
 
     while (obj && keys.length) {
       obj = obj[keys.shift()];
